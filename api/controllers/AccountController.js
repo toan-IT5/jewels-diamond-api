@@ -9,16 +9,21 @@ const table = 'account'
 
 module.exports = {
     post:(req, res) => {
-        let userName = req.body.username;
-        let password = req.body.password;
+        // lấy userName và password từ user (Người sử dụng app)
+        let userName = req.query.User_Name;
+        let password = req.query.Password;
+        console.log(userName);
+        console.log(password);
         // var hash = crypto.createHash('md5').update(password).digest('hex');
 
-        let sql = 'SELECT * FROM account WHERE username = ? AND password = ?'
+        let sql = 'SELECT * FROM `account` WHERE `User_Name` = ? AND `Password` = ?'
         db.query(sql, [userName, password],(err, response) => {
+            // If không tìm thấy sẽ phản hồi trạng thái về cho user
             if (err) throw err
-                res.json(response)
+                res.json(response[0])
         })
     },
+    //Thêm tài khoản mới vào dữ liệu
     put: (req, res) => {
         let data = req.body;
         let sql = 'INSERT INTO account SET ?'
@@ -27,11 +32,10 @@ module.exports = {
             res.json({message: 'Insert account success!'})
         })
     },
+    //Kiểm tra user name đã tồn tại hay chưa
     get: (req, res) => {
-        let userName = req.params.UserName;
-    
         let sql = 'SELECT * FROM account WHERE UserName = ?'
-        db.query(sql, [userName],(err, response) => {
+        db.query(sql, req.query.ID_Product ,(err, response) => {
             if (err) throw err
             
                 res.json(response)

@@ -1,43 +1,41 @@
 'use strict';
+
+
+
 module.exports = function(app) {
-  let productsCtrl = require('./controllers/ProductController');
-  let productTppeCtrl = require('./controllers/ProductTypeController');
-  var accountController = require('./controllers/AccountController');
-  var cartCtrl = require('./controllers/CartControler');
-  var orderCtrl = require('./controllers/OrderController');
+  let productsCtrl = require('./controllers/ProductContronller');
+  let photoCtrl = require('./controllers/PhotoController');
+  let categoryCtrl = require('./controllers/CategoryController');
+  let orderCtrl = require('./controllers/OrderController');
+  // let productTppeCtrl = require('./controllers/ProductTypeController');
+  let accountController = require('./controllers/AccountController');
+  // var cartCtrl = require('./controllers/CartControler');
+  // var orderCtrl = require('./controllers/OrderController');
     // todoList Routes
-  app.route('/products')
+
+  //Lấy toàn bộ dữ liệu của sản phẩm
+  app.route('/api/products')
   .get(productsCtrl.get);
 
-  app.route('/products/:page')
-  .post(productsCtrl.post);
+  //Lấy hình ảnh theo ID_product
+  app.route('/api/photo/search')
+  .get(photoCtrl.get);
 
-  app.route('/product_type')
-  .get(productTppeCtrl.get);
+  // Lấy toàn bộ các loại category
+  app.route('/api/category')
+  .get(categoryCtrl.get);
 
-  app.route('/account')
-  .post(accountController.post)
-
-  app.route('/account/insert')
-  .post(accountController.put);
-
-  app.route('/account/:UserName')
-  .get(accountController.get);
-
-  app.route('/cart')
-  .get(cartCtrl.get)
-  .post(cartCtrl.post);
-
-  app.route('/api/cart/:id')
-  .delete(cartCtrl.delete);
-
-  app.route('/cart/:id_account')
-  .get(cartCtrl.get_cart_details)
-  .delete(cartCtrl.delete_by_id_account);
-
-  app.route('/order')
-  .get(orderCtrl.get)
-  .post(orderCtrl.post);
-
+  // Login vào sever
   
+  app.route('/api/login')
+  .post(accountController.post);
+
+  // Xữ lý đặt hàng
+  app.route('/api/order')
+  .post(orderCtrl.postOrder);
+
+  // Gửi lưu chi tiết đơn hàng
+  app.route('/api/order/detail') 
+  .post(orderCtrl.postOrderDetail); 
+
 };
